@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { PROBLEMS, UNITS, byTopic, difficultyLabel, type Problem, type TopicKey } from "./game-data";
+import { GUIDE_EXAMPLES } from "./guide-examples";
 
 type Screen = "map" | "library" | "review";
 type Lesson = { unitIndex: number; levelIndex: number } | null;
@@ -85,11 +86,17 @@ function Lc15Visual({step}:{step:number}) {
   return <div className="visual lc15-visual"><div className="array-row">{f.nums.map((value,index)=>{const pointers=[index===f.i?"i":"",index===f.l?"l":"",index===f.r?"r":""].filter(Boolean).join(" · ");return <div className={`array-cell ${index===f.i?"fixed":""} ${index===f.l||index===f.r?"focus":""}`} key={`${value}-${index}`}><b>{value}</b><small>{pointers||index}</small></div>})}</div><div className="three-sum-meta"><span><small>total</small><b>{f.total??"—"}</b></span><span><small>ans</small><code>{JSON.stringify(f.ans)}</code></span></div><p className="frame-message">{f.message}</p></div>;
 }
 
+function GuideExampleVisual({problem,step}:{problem:Problem;step:number}) {
+  const example=GUIDE_EXAMPLES[problem.id],phase=step%3;
+  return <div className="visual guide-example-visual"><div className="example-case"><span>CodeTop 链接题面 · 示例 1</span><pre>{example.input}</pre></div><div className="example-flow"><span className={phase===0?"active":""}>读取输入</span><i>→</i><span className={phase===1?"active":""}>执行当前行</span><i>→</i><span className={phase===2?"active":""}>更新状态</span></div><div className="memory-card"><span>示例输出</span><code>{example.output||"题目要求原地修改输入"}</code></div></div>;
+}
+
 function DemoVisual({problem,step}:{problem:Problem;step:number}) {
   if(problem.id==="3") return <Lc3Visual step={step}/>;
   if(problem.id==="15") return <Lc15Visual step={step}/>;
   const progress=Math.min(4,step);
   if(problem.id==="1") {const nums=[2,7,11,15],index=Math.min(Math.max(step-1,0),1);return <div className="visual"><div className="target-pill">target = 9</div><div className="array-row">{nums.map((n,i)=><div className={`array-cell ${i===index?"focus":""} ${step>3&&i<2?"matched":""}`} key={n}><b>{n}</b><small>{i===index?`i=${i}, x=${n}`:`i=${i}`}</small></div>)}</div><div className="memory-card"><span>seen</span><code>{step<3?"{}":step<5?"{2: 0}":"{2: 0} · 找到补数 2"}</code></div></div>}
+  if(GUIDE_EXAMPLES[problem.id]) return <GuideExampleVisual problem={problem} step={step}/>;
   if(problem.topic==="linked") return <div className="visual"><div className="node-chain">{[1,2,3,4].map((n,i)=><div className={`node-wrap ${i<=progress?"visited":""}`} key={n}><span>{n}</span>{i<3&&<b>{i<progress?"←":"→"}</b>}</div>)}</div><div className="memory-card"><span>指针快照</span><code>prev={Math.max(0,progress)} · cur={Math.min(4,progress+1)}</code></div></div>;
   if(problem.topic==="tree") return <div className="visual tree-visual"><div className={`tree-node ${progress>0?"focus":""}`}>5</div><div className="branches">╱　╲</div><div className="tree-row"><span className={progress>1?"focus":""}>3</span><span className={progress>2?"focus":""}>8</span></div><div className="branches small">╱ ╲　╱ ╲</div><div className="tree-row leaves"><span>2</span><span>4</span><span>7</span><span>9</span></div></div>;
   if(problem.topic==="graph") return <div className="visual grid-visual">{Array.from({length:16},(_,i)=><span className={i<=progress*2?"visited":i%3?"land":""} key={i}>{i<=progress*2?"✓":i%3?"1":"0"}</span>)}</div>;

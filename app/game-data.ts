@@ -1,4 +1,5 @@
 import { STATEMENTS } from "./problem-statements";
+import { GUIDE_SOLUTIONS } from "./guide-solutions";
 
 export type TopicKey = "hash" | "linked" | "search" | "dp" | "tree" | "graph" | "stack" | "string" | "array";
 
@@ -258,7 +259,7 @@ const S: Record<string, string> = {
 
 export const PROBLEMS: Problem[] = RAW.trim().split("\n").map((line, index) => {
   const [id, title, difficulty, frequency, slug] = line.split("|");
-  return { rank:index + 1, id, title, difficulty:Number(difficulty), frequency:Number(frequency), slug, topic:topicOf(id), code:S[id], statement:STATEMENTS[id] };
+  return { rank:index + 1, id, title, difficulty:Number(difficulty), frequency:Number(frequency), slug, topic:topicOf(id), code:GUIDE_SOLUTIONS[id] ?? S[id], statement:STATEMENTS[id] };
 });
 
 export const byTopic = (key: TopicKey) => PROBLEMS.filter(problem => problem.topic === key);
