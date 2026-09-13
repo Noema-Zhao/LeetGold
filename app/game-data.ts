@@ -1,3 +1,5 @@
+import { STATEMENTS } from "./problem-statements";
+
 export type TopicKey = "hash" | "linked" | "search" | "dp" | "tree" | "graph" | "stack" | "string" | "array";
 
 export type Problem = {
@@ -9,6 +11,7 @@ export type Problem = {
   slug: string;
   topic: TopicKey;
   code: string;
+  statement: string;
 };
 
 export type Unit = {
@@ -151,8 +154,8 @@ const TOPIC_IDS: Record<TopicKey, string[]> = {
 const topicOf = (id: string) => (Object.keys(TOPIC_IDS) as TopicKey[]).find(key => TOPIC_IDS[key].includes(id)) ?? "array";
 
 const S: Record<string, string> = {
-  "3":`last, left, ans = {}, 0, 0\nfor right, ch in enumerate(s):\n    if ch in last and last[ch] >= left:\n        left = last[ch] + 1\n    last[ch] = right\n    ans = max(ans, right - left + 1)\nreturn ans`,
-  "1":`seen = {}\nfor i, x in enumerate(nums):\n    need = target - x\n    if need in seen:\n        return [seen[need], i]\n    seen[x] = i`,
+  "3":`class Solution:\n    def lengthOfLongestSubstring(self, s):\n        last, left, ans = {}, 0, 0\n        for right, ch in enumerate(s):\n            if ch in last and last[ch] >= left:\n                left = last[ch] + 1\n            last[ch] = right\n            ans = max(ans, right - left + 1)\n        return ans`,
+  "1":`class Solution:\n    def twoSum(self, nums, target):\n        seen = {}\n        for i, x in enumerate(nums):\n            need = target - x\n            if need in seen:\n                return [seen[need], i]\n            seen[x] = i`,
   "15":`nums.sort()\nfor i, x in enumerate(nums[:-2]):\n    if i and x == nums[i - 1]: continue\n    left, right = i + 1, len(nums) - 1\n    while left < right:\n        total = x + nums[left] + nums[right]\n        if total < 0: left += 1\n        elif total > 0: right -= 1\n        else: record_and_skip_duplicates()`,
   "76":`need, window = Counter(t), Counter()\nleft = formed = 0\nfor right, ch in enumerate(s):\n    window[ch] += 1\n    if window[ch] == need[ch]: formed += 1\n    while formed == len(need):\n        update_best(left, right)\n        window[s[left]] -= 1\n        if window[s[left]] < need[s[left]]: formed -= 1\n        left += 1`,
   "128":`values = set(nums)\nbest = 0\nfor x in values:\n    if x - 1 not in values:\n        y = x\n        while y in values: y += 1\n        best = max(best, y - x)\nreturn best`,
@@ -255,7 +258,7 @@ const S: Record<string, string> = {
 
 export const PROBLEMS: Problem[] = RAW.trim().split("\n").map((line, index) => {
   const [id, title, difficulty, frequency, slug] = line.split("|");
-  return { rank:index + 1, id, title, difficulty:Number(difficulty), frequency:Number(frequency), slug, topic:topicOf(id), code:S[id] };
+  return { rank:index + 1, id, title, difficulty:Number(difficulty), frequency:Number(frequency), slug, topic:topicOf(id), code:S[id], statement:STATEMENTS[id] };
 });
 
 export const byTopic = (key: TopicKey) => PROBLEMS.filter(problem => problem.topic === key);

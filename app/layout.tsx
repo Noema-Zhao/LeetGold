@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AlgoGo · CodeTop 100 闯关",
-  description: "像玩游戏一样掌握 CodeTop 高频算法题。",
+  title: "LeetGold · CodeTop 100 黄金矿工闯关",
+  description: "逐行挖掘算法：题干、动画、代码排序、变量理解与三轮代码默写。",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
