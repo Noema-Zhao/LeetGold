@@ -6,7 +6,7 @@
 
 ## 在线体验
 
-[开始开采 CodeTop 100](https://algogo-codetop-100.noemazhao.chatgpt.site/)
+[开始开采 CodeTop 100](https://leetgold.noemazhao.chatgpt.site/)
 
 ## 核心玩法
 
