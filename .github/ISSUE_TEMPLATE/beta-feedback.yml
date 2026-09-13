@@ -1,0 +1,38 @@
+name: 内测反馈
+description: 反馈题目内容、学习流程或移动端体验问题
+title: "[内测反馈] "
+body:
+  - type: dropdown
+    id: category
+    attributes:
+      label: 问题类型
+      options:
+        - 题干或答案
+        - 动画演示
+        - 练习交互
+        - 移动端显示
+        - 功能建议
+        - 其他
+    validations:
+      required: true
+  - type: input
+    id: problem
+    attributes:
+      label: 题目或关卡
+      description: 如 LC3、第一矿区入场指南；与具体题目无关时可写“无”
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: 具体情况
+      description: 请描述你进行了什么操作、看到了什么，以及期望的结果
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: 设备与浏览器
+      description: 如 iPhone 16 / Safari，Pixel 9 / Chrome
+    validations:
+      required: false

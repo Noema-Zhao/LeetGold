@@ -1,100 +1,48 @@
-# vinext-starter
+# LeetGold
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+把 CodeTop 高频算法题做成黄金矿工风格的手机闯关游戏。
 
-## Prerequisites
+> 当前状态：公开内测。题目、交互与学习路径仍会持续优化。
 
-- Node.js `>=22.13.0`
+## 在线体验
 
-## Quick Start
+[开始开采 CodeTop 100](https://algogo-codetop-100.noemazhao.chatgpt.site/)
+
+## 核心玩法
+
+- 按哈希与滑动窗口、链表、二叉树、动态规划等主题组织 CodeTop 高频题。
+- 每个单元先结合具体题干讲清核心概念。
+- 用逐步动画展示变量、数据结构和关键代码的变化。
+- 通过代码排序、变量含义选择、关键代码选择与手写填空完成学习闭环。
+- 答错后立即显示正确答案，并要求重做同一道题直到掌握。
+- 通关获得金币，学习进度保存在当前浏览器中。
+
+## 本地开发
+
+需要 Node.js 22.13 或更高版本。
 
 ```bash
 npm install
 npm run dev
+```
+
+生产构建：
+
+```bash
 npm run build
 ```
 
-This starter does not use `wrangler.jsonc`.
+## 技术栈
 
-## Included Shape
+- React 19
+- TypeScript
+- vinext / Vite
+- Cloudflare Workers 兼容构建
 
-- edit site code under `app/`
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/schema.ts` starts intentionally empty
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
+## 内测反馈
 
-## Workspace Auth Headers
+欢迎通过 GitHub Issues 反馈题干、题解动画、交互体验或移动端显示问题。提交问题时请注明题目编号、操作步骤和使用的设备。
 
-Signed-in visitors receive both `oai-authenticated-user-id` and `oai-authenticated-user-email`. Private Sites require every visitor to sign in; public Sites may also have anonymous visitors, for whom neither header is present.
+## 内容说明
 
-The user ID is stable for the same user on the same Site and different across Sites. Email and name are intended for display or contact purposes.
-
-SIWC-authenticated workspace sites may also receive
-`oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty
-`name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by
-`oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const userId = requestHeaders.get("oai-authenticated-user-id");
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
-```
-
-## Optional Dispatch-Owned ChatGPT Sign-In
-
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs
-optional or required ChatGPT sign-in:
-
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send
-  anonymous visitors through Sign in with ChatGPT.
-- Use `chatGPTSignInPath(returnTo)` and `chatGPTSignOutPath(returnTo)` for
-  browser links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in
-  or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because
-  they depend on per-request identity headers.
-
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the
-OAuth cookies, and identity header injection. Do not implement app routes for
-those reserved paths. Routes that do not import and call the helper remain
-anonymous-compatible.
-
-SIWC establishes identity only; it does not prove workspace membership. Use the
-Sites hosting platform's access policy controls for workspace-wide restrictions,
-or enforce explicit server-side membership or allowlist checks.
-
-Use SIWC for account pages, user-specific dashboards, saved records, and write
-actions tied to the current ChatGPT user. Leave public content anonymous.
-
-## Useful Commands
-
-- `npm run dev`: start local development
-- `npm run build`: verify the vinext build output
-- `npm test`: build the starter and verify its rendered loading skeleton
-- `npm run db:generate`: generate Drizzle migrations after schema changes
-
-## Learn More
-
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+题目内容用于算法学习，题干采用依据公开题意重新表述的学习版摘要。LeetCode 与 CodeTop 的名称及相关商标归其各自权利人所有。

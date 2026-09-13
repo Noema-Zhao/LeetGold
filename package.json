@@ -1,5 +1,6 @@
 {
-  "name": "site-creator-vinext-starter",
+  "name": "leetgold",
+  "description": "A Gold Miner-inspired mobile learning game for the CodeTop 100 algorithm problems.",
   "version": "0.1.0",
   "private": true,
   "engines": {
